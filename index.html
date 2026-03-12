@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro Firebase - Aprendizado</title>
+  <title>Cadastro Firebase</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -22,22 +22,22 @@
     h1 {
       text-align: center;
       color: #ba7dff;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-size: 22px;
     }
 
     .subtitulo {
       text-align: center;
-      color: rgba(186,125,255,0.6);
+      color: rgba(186,125,255,0.5);
       font-size: 13px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .card {
       background: rgba(20,10,45,0.85);
       border: 1px solid rgba(186,125,255,0.2);
       border-radius: 16px;
-      padding: 20px;
+      padding: 24px;
       max-width: 500px;
       margin: 0 auto 20px;
       box-shadow: 0 0 40px rgba(186,125,255,0.08);
@@ -46,10 +46,7 @@
     .card h2 {
       color: #d4aaff;
       font-size: 16px;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 16px;
     }
 
     input {
@@ -66,7 +63,6 @@
     }
 
     input::placeholder { color: rgba(186,125,255,0.4); }
-
     input:focus {
       border-color: #ba7dff;
       box-shadow: 0 0 0 3px rgba(186,125,255,0.15);
@@ -86,49 +82,69 @@
       margin-top: 4px;
     }
 
-    button:hover {
-      background: #9a5ff4;
-      transform: translateY(-1px);
+    button:hover { background: #9a5ff4; transform: translateY(-1px); }
+    button:disabled { background: rgba(122,63,212,0.4); cursor: not-allowed; transform: none; }
+
+    .btn-secundario {
+      background: transparent;
+      border: 1px solid rgba(186,125,255,0.3);
+      color: #ba7dff;
+      margin-top: 8px;
     }
 
-    button:disabled {
-      background: rgba(122,63,212,0.4);
-      cursor: not-allowed;
-      transform: none;
+    .btn-secundario:hover { background: rgba(186,125,255,0.1); }
+
+    .btn-perigo {
+      background: rgba(108,31,58,0.8);
+      width: auto;
+      padding: 6px 12px;
+      font-size: 12px;
+      margin-top: 0;
+      border-radius: 6px;
     }
+
+    .btn-perigo:hover { background: #a0263f; transform: none; }
 
     /* Status */
-    #status {
+    .status {
       text-align: center;
       padding: 10px;
       border-radius: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       font-size: 14px;
       display: none;
     }
+    .status.success { background: rgba(37,211,102,0.15); border: 1px solid rgba(37,211,102,0.4); color: #25D366; display: block; }
+    .status.error { background: rgba(220,53,69,0.15); border: 1px solid rgba(220,53,69,0.4); color: #ff6b7a; display: block; }
+    .status.loading { background: rgba(186,125,255,0.1); border: 1px solid rgba(186,125,255,0.3); color: #ba7dff; display: block; }
 
-    #status.success {
-      background: rgba(37,211,102,0.15);
-      border: 1px solid rgba(37,211,102,0.4);
-      color: #25D366;
-      display: block;
+    /* Tela de login */
+    #tela-login { display: block; }
+    #tela-app { display: none; }
+
+    .usuario-logado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(186,125,255,0.08);
+      border: 1px solid rgba(186,125,255,0.2);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      font-size: 13px;
     }
 
-    #status.error {
-      background: rgba(220,53,69,0.15);
-      border: 1px solid rgba(220,53,69,0.4);
-      color: #ff6b7a;
-      display: block;
+    .usuario-logado span { color: #ba7dff; }
+    .usuario-logado button {
+      width: auto;
+      padding: 6px 14px;
+      font-size: 12px;
+      margin: 0;
+      background: rgba(108,31,58,0.8);
+      border-radius: 6px;
     }
 
-    #status.loading {
-      background: rgba(186,125,255,0.1);
-      border: 1px solid rgba(186,125,255,0.3);
-      color: #ba7dff;
-      display: block;
-    }
-
-    /* Lista de cadastros */
+    /* Lista */
     .lista-vazia {
       text-align: center;
       color: rgba(186,125,255,0.4);
@@ -145,47 +161,27 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background 0.3s;
       animation: fadeIn 0.3s ease;
     }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-8px); }
-      to   { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .item:hover { background: rgba(186,125,255,0.1); }
+    .item:hover { background: rgba(186,125,255,0.08); }
 
-    .item-info strong {
-      display: block;
-      color: #e0d6f5;
-      font-size: 15px;
-    }
-
-    .item-info span {
-      font-size: 12px;
-      color: rgba(186,125,255,0.6);
-    }
-
-    .btn-deletar {
-      width: auto;
-      padding: 6px 12px;
-      font-size: 12px;
-      background: rgba(108,31,58,0.8);
-      border-radius: 6px;
-      margin-top: 0;
-    }
-
-    .btn-deletar:hover { background: #a0263f; }
+    .item-info strong { display: block; color: #e0d6f5; font-size: 15px; }
+    .item-info span { font-size: 12px; color: rgba(186,125,255,0.6); }
 
     .contador {
       text-align: center;
-      color: rgba(186,125,255,0.5);
+      color: rgba(186,125,255,0.4);
       font-size: 12px;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
-    /* Indicador de conexão */
+    /* Conexão */
     .conexao {
       display: flex;
       align-items: center;
@@ -196,61 +192,80 @@
       color: rgba(186,125,255,0.5);
     }
 
-    .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #555;
-    }
-
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #555; }
     .dot.online { background: #25D366; box-shadow: 0 0 6px #25D366; }
     .dot.offline { background: #dc3545; }
+
+    .lock-icon {
+      text-align: center;
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>🔥 Cadastro Firebase</h1>
-  <p class="subtitulo">App de aprendizado — dados salvos na nuvem</p>
+  <!-- TELA DE LOGIN -->
+  <div id="tela-login">
+    <h1>🔥 Cadastro Firebase</h1>
+    <p class="subtitulo">Faça login para acessar</p>
 
-  <div class="conexao">
-    <div class="dot" id="dot"></div>
-    <span id="conexao-txt">Conectando...</span>
+    <div class="card">
+      <div class="lock-icon">🔐</div>
+      <h2>Login</h2>
+      <div id="status-login" class="status"></div>
+      <input type="email" id="login-email" placeholder="Seu email" autocomplete="email">
+      <input type="password" id="login-senha" placeholder="Sua senha" autocomplete="current-password">
+      <button onclick="fazerLogin()">🔑 Entrar</button>
+    </div>
   </div>
 
-  <!-- Formulário -->
-  <div class="card">
-    <h2>➕ Novo Cadastro</h2>
-    <div id="status"></div>
-    <input type="text" id="nome" placeholder="Nome completo" maxlength="60">
-    <input type="text" id="telefone" placeholder="Telefone" maxlength="20">
-    <input type="text" id="cidade" placeholder="Cidade" maxlength="40">
-    <button id="btn-salvar" onclick="salvar()">💾 Salvar no Firebase</button>
-  </div>
+  <!-- TELA DO APP -->
+  <div id="tela-app">
+    <h1>🔥 Cadastro Firebase</h1>
+    <p class="subtitulo">Dados salvos na nuvem em tempo real</p>
 
-  <!-- Lista -->
-  <div class="card">
-    <h2>📋 Cadastros salvos</h2>
-    <div id="lista"><div class="lista-vazia">Carregando...</div></div>
-    <div class="contador" id="contador"></div>
+    <div class="conexao">
+      <div class="dot" id="dot"></div>
+      <span id="conexao-txt">Conectando...</span>
+    </div>
+
+    <!-- Usuário logado -->
+    <div class="card">
+      <div class="usuario-logado">
+        <div>👤 <span id="email-logado"></span></div>
+        <button onclick="fazerLogout()">Sair</button>
+      </div>
+
+      <!-- Formulário -->
+      <h2>➕ Novo Cadastro</h2>
+      <div id="status-form" class="status"></div>
+      <input type="text" id="nome" placeholder="Nome completo" maxlength="60">
+      <input type="text" id="telefone" placeholder="Telefone" maxlength="20">
+      <input type="text" id="cidade" placeholder="Cidade" maxlength="40">
+      <button id="btn-salvar" onclick="salvar()">💾 Salvar no Firebase</button>
+    </div>
+
+    <!-- Lista -->
+    <div class="card">
+      <h2>📋 Cadastros salvos</h2>
+      <div id="lista"><div class="lista-vazia">Carregando...</div></div>
+      <div class="contador" id="contador"></div>
+    </div>
   </div>
 
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import {
-      getFirestore,
-      collection,
-      addDoc,
-      deleteDoc,
-      doc,
-      onSnapshot,
-      serverTimestamp,
-      query,
-      orderBy
+      getFirestore, collection, addDoc, deleteDoc,
+      doc, onSnapshot, serverTimestamp, query, orderBy
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import {
+      getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    // ============================
-    //  SUAS CREDENCIAIS FIREBASE
-    // ============================
+    // === CREDENCIAIS ===
     const firebaseConfig = {
       apiKey: "AIzaSyCN81LSya9eIGY1y1r8pFG67CyhKHL5mQU",
       authDomain: "cadastrosaidas.firebaseapp.com",
@@ -262,34 +277,87 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);
 
-    // Indicador de conexão
-    const dot = document.getElementById('dot');
-    const conexaoTxt = document.getElementById('conexao-txt');
+    // === TELAS ===
+    function mostrarApp(usuario) {
+      document.getElementById('tela-login').style.display = 'none';
+      document.getElementById('tela-app').style.display = 'block';
+      document.getElementById('email-logado').textContent = usuario.email;
+      iniciarLista();
+    }
+
+    function mostrarLogin() {
+      document.getElementById('tela-login').style.display = 'block';
+      document.getElementById('tela-app').style.display = 'none';
+    }
+
+    // === MONITOR DE AUTH ===
+    onAuthStateChanged(auth, (usuario) => {
+      if (usuario) {
+        mostrarApp(usuario);
+      } else {
+        mostrarLogin();
+      }
+    });
+
+    // === LOGIN ===
+    window.fazerLogin = async function() {
+      const email = document.getElementById('login-email').value.trim();
+      const senha = document.getElementById('login-senha').value;
+      const status = document.getElementById('status-login');
+
+      if (!email || !senha) {
+        status.textContent = '⚠️ Preencha email e senha!';
+        status.className = 'status error';
+        return;
+      }
+
+      status.textContent = '🔄 Entrando...';
+      status.className = 'status loading';
+
+      try {
+        await signInWithEmailAndPassword(auth, email, senha);
+        status.className = 'status';
+      } catch (erro) {
+        const msgs = {
+          'auth/invalid-credential': '❌ Email ou senha incorretos.',
+          'auth/user-not-found': '❌ Usuário não encontrado.',
+          'auth/wrong-password': '❌ Senha incorreta.',
+          'auth/too-many-requests': '⚠️ Muitas tentativas. Tente mais tarde.',
+          'auth/invalid-email': '❌ Email inválido.'
+        };
+        status.textContent = msgs[erro.code] || '❌ Erro: ' + erro.message;
+        status.className = 'status error';
+      }
+    };
+
+    // === LOGOUT ===
+    window.fazerLogout = async function() {
+      await signOut(auth);
+    };
+
+    // === STATUS ===
+    function mostrarStatus(msg, tipo) {
+      const el = document.getElementById('status-form');
+      el.textContent = msg;
+      el.className = 'status ' + tipo;
+      if (tipo !== 'loading') setTimeout(() => el.className = 'status', 3000);
+    }
 
     function setConexao(online) {
-      dot.className = 'dot ' + (online ? 'online' : 'offline');
-      conexaoTxt.textContent = online ? 'Conectado ao Firebase ✓' : 'Sem conexão';
+      document.getElementById('dot').className = 'dot ' + (online ? 'online' : 'offline');
+      document.getElementById('conexao-txt').textContent = online
+        ? 'Conectado ao Firebase ✓' : 'Sem conexão';
     }
 
-    // Status
-    function mostrarStatus(msg, tipo) {
-      const el = document.getElementById('status');
-      el.textContent = msg;
-      el.className = tipo;
-      if (tipo !== 'loading') setTimeout(() => el.className = '', 3000);
-    }
-
-    // SALVAR
+    // === SALVAR ===
     window.salvar = async function() {
       const nome = document.getElementById('nome').value.trim();
       const telefone = document.getElementById('telefone').value.trim();
       const cidade = document.getElementById('cidade').value.trim();
 
-      if (!nome) {
-        mostrarStatus('⚠️ Preencha o nome!', 'error');
-        return;
-      }
+      if (!nome) { mostrarStatus('⚠️ Preencha o nome!', 'error'); return; }
 
       const btn = document.getElementById('btn-salvar');
       btn.disabled = true;
@@ -297,80 +365,82 @@
 
       try {
         await addDoc(collection(db, "cadastros"), {
-          nome,
-          telefone,
-          cidade,
-          criadoEm: serverTimestamp()
+          nome, telefone, cidade,
+          criadoEm: serverTimestamp(),
+          criadoPor: auth.currentUser?.email
         });
-
         mostrarStatus('✅ Salvo com sucesso!', 'success');
         document.getElementById('nome').value = '';
         document.getElementById('telefone').value = '';
         document.getElementById('cidade').value = '';
         setConexao(true);
       } catch (erro) {
-        mostrarStatus('❌ Erro: ' + erro.message, 'error');
+        mostrarStatus('❌ Erro ao salvar!', 'error');
         setConexao(false);
-        console.error(erro);
       } finally {
         btn.disabled = false;
       }
     };
 
-    // DELETAR
+    // === DELETAR ===
     window.deletar = async function(id) {
       if (!confirm('Remover este cadastro?')) return;
       try {
         await deleteDoc(doc(db, "cadastros", id));
-      } catch (erro) {
-        alert('Erro ao deletar: ' + erro.message);
+      } catch (e) {
+        alert('Erro ao deletar!');
       }
     };
 
-    // LISTAR em tempo real (atualiza automaticamente!)
-    const q = query(collection(db, "cadastros"), orderBy("criadoEm", "desc"));
+    // === LISTAR ===
+    let unsubscribe = null;
 
-    onSnapshot(q, (snapshot) => {
-      setConexao(true);
-      const lista = document.getElementById('lista');
-      const contador = document.getElementById('contador');
+    function iniciarLista() {
+      if (unsubscribe) unsubscribe();
+      const q = query(collection(db, "cadastros"), orderBy("criadoEm", "desc"));
 
-      if (snapshot.empty) {
-        lista.innerHTML = '<div class="lista-vazia">Nenhum cadastro ainda. Adicione o primeiro! 👆</div>';
-        contador.textContent = '';
-        return;
-      }
+      unsubscribe = onSnapshot(q, (snapshot) => {
+        setConexao(true);
+        const lista = document.getElementById('lista');
+        const contador = document.getElementById('contador');
 
-      lista.innerHTML = '';
-      snapshot.forEach(docSnap => {
-        const d = docSnap.data();
-        const data = d.criadoEm?.toDate().toLocaleDateString('pt-BR') || '—';
+        if (snapshot.empty) {
+          lista.innerHTML = '<div class="lista-vazia">Nenhum cadastro ainda. Adicione o primeiro! 👆</div>';
+          contador.textContent = '';
+          return;
+        }
 
-        const item = document.createElement('div');
-        item.className = 'item';
-        item.innerHTML = `
-          <div class="item-info">
-            <strong>${d.nome}</strong>
-            <span>${d.telefone || '—'} · ${d.cidade || '—'} · ${data}</span>
-          </div>
-          <button class="btn-deletar" onclick="deletar('${docSnap.id}')">🗑️</button>
-        `;
-        lista.appendChild(item);
-      });
+        lista.innerHTML = '';
+        snapshot.forEach(docSnap => {
+          const d = docSnap.data();
+          const data = d.criadoEm?.toDate().toLocaleDateString('pt-BR') || '—';
+          const item = document.createElement('div');
+          item.className = 'item';
+          item.innerHTML = `
+            <div class="item-info">
+              <strong>${d.nome}</strong>
+              <span>${d.telefone || '—'} · ${d.cidade || '—'} · ${data}</span>
+            </div>
+            <button class="btn-perigo" onclick="deletar('${docSnap.id}')">🗑️</button>
+          `;
+          lista.appendChild(item);
+        });
 
-      const total = snapshot.size;
-      contador.textContent = total + ' cadastro' + (total !== 1 ? 's' : '') + ' na nuvem';
+        const total = snapshot.size;
+        contador.textContent = total + ' cadastro' + (total !== 1 ? 's' : '') + ' na nuvem';
 
-    }, (erro) => {
-      setConexao(false);
-      document.getElementById('lista').innerHTML =
-        '<div class="lista-vazia">❌ Erro de conexão. Verifique o Firebase.</div>';
-      console.error(erro);
-    });
+      }, () => setConexao(false));
+    }
 
-    // Enter para salvar
+    // Enter para login
     document.addEventListener('keydown', e => {
-      if (e.key === 'Enter') window.salvar();
+      if (e.key === 'Enter') {
+        if (document.getElementById('tela-login').style.display !== 'none') {
+          window.fazerLogin();
+        } else {
+          window.salvar();
+        }
+      }
     });
 
   </script>
